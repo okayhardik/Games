@@ -1,0 +1,38 @@
+body {
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+.game-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.hole {
+  width: 100px;
+  height: 100px;
+  background-color: #9ACD32;
+  border: 2px solid #556B2F;
+  border-radius: 50%;
+  margin: 10px;
+  position: relative;
+  cursor: pointer;
+}
+
+.mole {
+  width: 60px;
+  height: 60px;
+  background-color: #663300;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+}
