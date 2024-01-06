@@ -1,38 +1,46 @@
-body {
-  text-align: center;
-  font-family: Arial, sans-serif;
+const holes = document.querySelectorAll('.hole');
+const scoreDisplay = document.getElementById('score');
+let score = 0;
+let timeUp = false;
+
+function randomTime(min, max) {
+  return Math.round(Math.random() * (max - min) + min);
 }
 
-h1 {
-  margin-bottom: 20px;
+function randomHole() {
+  const idx = Math.floor(Math.random() * holes.length);
+  const hole = holes[idx];
+  return hole;
 }
 
-.game-container {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-top: 20px;
+function peep() {
+  const time = randomTime(200, 1000);
+  const hole = randomHole();
+  hole.classList.add('up');
+  setTimeout(() => {
+    hole.classList.remove('up');
+    if (!timeUp) peep();
+  }, time);
 }
 
-.hole {
-  width: 100px;
-  height: 100px;
-  background-color: #9ACD32;
-  border: 2px solid #556B2F;
-  border-radius: 50%;
-  margin: 10px;
-  position: relative;
-  cursor: pointer;
+function startGame() {
+  score = 0;
+  scoreDisplay.textContent = score;
+  timeUp = false;
+  peep();
+  setTimeout(() => (timeUp = true), 10000); // 10 seconds for the game
 }
 
-.mole {
-  width: 60px;
-  height: 60px;
-  background-color: #663300;
-  border-radius: 50%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: none;
+function bonk(e) {
+  if (!e.isTrusted) return; // Prevent fake clicks
+  if (!timeUp && e.target.classList.contains('up')) {
+    e.target.classList.remove('up');
+    score++;
+    scoreDisplay.textContent = score;
+  }
 }
+
+holes.forEach((hole) => hole.addEventListener('click', bonk));
+
+// Start the game when the page loads
+startGame();
